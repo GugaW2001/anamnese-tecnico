@@ -50,25 +50,79 @@ export function AnatomicalCanvas({ type, value = [], onChange }: AnatomicalCanva
       ctx.arc(width * 0.72, height * 0.5, 3, 0, 2 * Math.PI)
       ctx.fill()
     } else {
+      ctx.strokeStyle = '#000000'
+      ctx.lineWidth = 2.8
+      ctx.lineCap = 'round'
+      ctx.lineJoin = 'round'
+
+      // --- Chest wall: vertical straight line on the left ---
       ctx.beginPath()
-      ctx.moveTo(width * 0.2, height * 0.1)
-      ctx.lineTo(width * 0.2, height * 0.9)
+      ctx.moveTo(85, 12)
+      ctx.lineTo(85, 268)
       ctx.stroke()
+
+      // --- Upper breast curve: from chest descending to nipple ---
       ctx.beginPath()
-      ctx.moveTo(width * 0.2, height * 0.25)
+      ctx.moveTo(85, 38)
       ctx.bezierCurveTo(
-        width * 0.8,
-        height * 0.3,
-        width * 0.8,
-        height * 0.7,
-        width * 0.2,
-        height * 0.8,
+        220, 20,
+        295, 85,
+        307, 132,
       )
       ctx.stroke()
+
+      // --- Lower breast curve: from nipple to chest wall ---
       ctx.beginPath()
-      ctx.moveTo(width * 0.2, height * 0.25)
-      ctx.quadraticCurveTo(width * 0.4, height * 0.15, width * 0.5, height * 0.05)
+      ctx.moveTo(307, 132)
+      ctx.bezierCurveTo(
+        312, 180,
+        270, 228,
+        98, 239,
+      )
       ctx.stroke()
+
+      // --- Inframammary fold: short horizontal indent ---
+      ctx.beginPath()
+      ctx.moveTo(98, 239)
+      ctx.lineTo(92, 242)
+      ctx.stroke()
+      ctx.beginPath()
+      ctx.moveTo(92, 242)
+      ctx.lineTo(88, 244)
+      ctx.stroke()
+
+      // --- Nipple: small triangular projection ---
+      ctx.fillStyle = '#000000'
+      ctx.beginPath()
+      ctx.moveTo(307, 132)
+      ctx.lineTo(318, 126)
+      ctx.lineTo(312, 137)
+      ctx.closePath()
+      ctx.fill()
+
+      // --- Axillary region: three short parallel inclined strokes ---
+      ctx.lineWidth = 2.8
+      for (let i = 0; i < 3; i++) {
+        const sx = 155 + i * 24
+        const sy = 21
+        ctx.beginPath()
+        ctx.moveTo(sx, sy)
+        ctx.lineTo(sx + 11, sy + 13)
+        ctx.stroke()
+      }
+
+      // --- Dotted external contour line ---
+      ctx.setLineDash([7, 6])
+      ctx.lineWidth = 2.2
+      ctx.beginPath()
+      ctx.moveTo(85, 16)
+      ctx.bezierCurveTo(
+        265, 10,
+        340, 55,
+        333, 108,
+      )
+      ctx.stroke()
+      ctx.setLineDash([])
     }
   }
 
